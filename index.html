@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.3/dc.css"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+
+<style>
+
+html, body {
+margin:0;
+width:100%;
+
+
+}
+#SOTUHeading1 {
+    
+    
+    
+    padding:5px;
+	font: 20px calibri;
+}
+
+#SOTUSection1 {
+    
+    
+    
+    padding:5px;
+	font: 16px calibri;
+}
+
+#SOTUSection2 {
+    
+    
+    
+    padding:5px;
+	font: 16px calibri;
+}
+
+#SOTUline1{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline1:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+#SOTUline2{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline2:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+#SOTUline3{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline3:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+
+#SOTUline4{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline4:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+
+#SOTUSection3 {
+    
+    
+    
+    padding:5px;
+	font: 16px calibri;
+}
+
+
+
+
+#SOTUline5{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline5:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+
+#SOTUline6{
+    
+    height: 20px;
+    
+    position: relative;
+}
+#SOTUline6:after {
+    border-top: 2px solid steelblue;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+}
+
+#SOTUSection4 {
+    
+    
+    
+    padding:5px;
+	font: 16px calibri;
+	
+	
+}
+
+
+
+
+
+</style>
+
+<body>
+
+
+<div id="SOTUHeading1">
+<h1>Tennis - Popularity in the US and Sales, Profits</h1>
+
+ <p>Haitham Eletrabi</p>
+ <p>Department of Civil Engineering, Samuel Ginn College of Engineering, Auburn University</p>
+ <p>Email: haa0003@auburn.edu</p>
+</div>
+
+<div id="SOTUSection1">
+<p align = "justify"> <small>The visualizations below are made possible by 
+		 <a href="http://dc-js.github.io/dc.js/"> dc.js </a>, which is a cool javascript library with native cross filter support for exploration of
+		 multidimensional datasets. 
+		 Other javascript libraries used here are <a href="http://d3js.org/"> d3.js </a>, a highly popular javascript library which has revolutionized 
+		 data visualization and <a href="http://square.github.io/crossfilter/"> crossfilter.js </a>, which enabled fast multidimensional filtering for coordinated
+		 views. The data from  <a href="http://dev.twitter.com/streaming/overview"> Twitter Streaming API </a> and  <a href="http://www.google.com/trends/">Google Trends</a> were used for these visualizations. </small>
+		 
+    </p>
+	
+<p align = "justify"> 
+The first set of visualizations provided here is aimed at showing the popularity of tennis among the US population. 
+We have provided two chloropeth maps which clearly show the popularity of tennis among the US population. The first map looks at the tweets distribution for the keyword "tennis" for US.
+The second map looks at the google trends results for the keyword "tennis" in the US.
+</P>
+<p align = "justify">
+The second set of visualizations provided here gives the sales and profits estimates from the new product.
+
+</p>
+
+
+
+</div>
+<div id="SOTUline1">
+</div>
+<div class="container">
+
+
+
+<div id="chloropethmapSOTU"> 
+        <strong>US tweets distribution</strong> (Chloropeth showing the count of geo located tweets for 2 days (Aug 17-19) for the US twitter users for the keyword "tennis" )
+		<p>Click on a state to see the count for that state.</p>
+        <a class="reset" href="javascript:chloropethmapSOTU.filterAll();dc.redrawAll();" style="display: none;"></a>
+      
+        
+    </div>
+
+
+
+<div class="clearfix"></div>
+
+
+
+</div>
+
+
+
+
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
+<script type="text/javascript" src="dc.js"></script>
+<script type="text/javascript">
+
+var numberFormat = d3.format(".0f");
+	
+    var chloropethmapSOTU = dc.geoChoroplethChart("#chloropethmapSOTU");
+
+	
+	
+ d3.csv("main.csv", function (csv) {
+        var data = crossfilter(csv); 
+
+        var states = data.dimension(function (d) {
+            return d["states"];
+        });
+		
+		
+		
+       
+		function reduceAdd(p,v) {
+			++p.count
+			
+			p.SumOfCount = p.SumOfCount + parseFloat(v.SumOfCount);
+			return p;
+			}
+		function reduceRemove(p,v) {
+			--p.count
+		
+			p.SumOfCount = p.SumOfCount - parseFloat(v.SumOfCount);
+			return p;
+			}
+		function reduceInitial() {
+			return {count:0, SumOfCount: 0};
+			}
+
+		var projection = d3.geo.albersUsa()
+						.scale(400)
+						.translate([500, 100]);
+		var sentiAvg = states.group().reduce(reduceAdd, reduceRemove, reduceInitial);
+		
+		
+     
+		
+		
+		
+		
+		var colorscale1 = d3.scale.quantize().range(["#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"])
+					.domain([0,100])
+		
+	
+	 d3.json("https://raw.githubusercontent.com/alignedleft/d3-book/master/chapter_12/us-states.json", function (statesJson) {
+            chloropethmapSOTU.width(1200)
+					 
+                    .height(200)
+					
+					.projection(projection)
+					
+                    .dimension(states)
+                    .group(sentiAvg)
+                    .valueAccessor(function(p) { return p.value.count > 0 ? p.value.SumOfCount : 0; })
+					 .colorCalculator(function (d) { return colorscale1(d)})		
+                   
+                    .overlayGeoJson(statesJson.features, "state", function (d) {
+                        return d.properties.name; 
+                    })
+                    .title(function (d) { 
+                        return  d.key + "\n" + "Tweets count: " + numberFormat(d.value ? d.value : 0) ;
+                    });
+					
+
+					 
+					
+					
+					
+					
+			 
+           
+					
+					
+					
+		dc.renderAll();
+        });
+		
+	
+	});
+	
+</script>
+
+
+
+
+
+<div class="container">
+
+
+
+<div id="chloropethmapSOTU3"> 
+	
+		
+        <strong>Google Trends Results </strong>(Chloropeth showing the regional interest for the google search- "tennis" for the US states in 2015. The regional interest index varies from 0 to 100)
+		<p>Click on a state to see the regional interest for that state.</p>
+        <a class="reset" href="javascript:chloropethmapSOTU3.filterAll();dc.redrawAll();" style="display: none;"></a>
+        
+		
+    </div>
+
+
+
+
+	
+
+ <div class="clearfix"></div>
+
+
+</div>
+
+
+<script type="text/javascript">
+var numberFormat = d3.format(".0f");
+var chloropethmapSOTU3 = dc.geoChoroplethChart("#chloropethmapSOTU3");
+	
+
+
+	d3.csv("report.csv", function (csv) {
+        var data = crossfilter(csv); 
+
+        var states = data.dimension(function (d) {
+            return d["state"]; 
+        });
+		
+	
+		
+		
+      
+		function reduceAdd(p,v) {
+			++p.count
+		
+			p.interest = p.interest + parseFloat(v.interest);
+			return p;
+			}
+		function reduceRemove(p,v) {
+			--p.count
+			
+			p.interest = p.interest - parseFloat(v.interest);
+			return p;
+			}
+		function reduceInitial() {
+			return {count:0, interest: 0};
+			}
+
+		var projection = d3.geo.albersUsa()
+						.scale(400)
+						.translate([500, 100]);
+		var sentiAvg = states.group().reduce(reduceAdd, reduceRemove, reduceInitial);
+		
+		
+		
+		
+		
+		var colorscale1 = d3.scale.quantize().range(["#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"])
+					.domain([38,100])
+		
+		
+  
+	 d3.json("https://raw.githubusercontent.com/alignedleft/d3-book/master/chapter_12/us-states.json", function (statesJson) {
+            chloropethmapSOTU3.width(1200)
+					 
+                    .height(200)
+					.projection(projection)
+					 
+                    .dimension(states)
+                    .group(sentiAvg) 
+                    .valueAccessor(function(p) { return p.value.count > 0 ? p.value.interest : 0; })
+					 .colorCalculator(function (d) { return colorscale1(d)})		
+                   
+                    .overlayGeoJson(statesJson.features, "state", function (d) {
+                        return d.properties.name; 
+                    })
+                    .title(function (d) { 
+                        return d.key + "\n"+"Google regional interest index: " + numberFormat(d.value ? d.value : 0) ;
+                    });
+					
+            
+			
+			
+					
+					
+					
+		dc.renderAll();
+        });
+		
+	
+	});
+</script>
+<div class="container">
+<div id="tennisbar"> 
+	
+		
+        <strong>Sales </strong>(Simple bar chart showing the increase in sales for 5 years)
+		<p>Hover over the bars to see respective year's sales</p>
+        <a class="reset" href="javascript:tennisbar.filterAll();dc.redrawAll();" style="display: none;"></a>
+        
+		
+    </div>
+
+
+<div id="tennisbar1"> 
+	
+		
+        <strong>Profits </strong>(Simple bar chart showing the increase in profits for 5 years)
+		<p>Hover over the bars to see respective year's profits</p>
+        <a class="reset" href="javascript:tennisbar1.filterAll();dc.redrawAll();" style="display: none;"></a>
+        
+		
+    </div>
+
+	
+
+
+
+
+</div>
+
+<script type="text/javascript">
+var numberFormat = d3.format(",");
+var tennisbar = dc.barChart("#tennisbar");
+d3.csv("sales.csv", function(error, experiments) {
+
+  experiments.forEach(function(x) {
+    x.sales = +x.sales;
+  });
+
+  var ndx                 = crossfilter(experiments),
+      yearDimension        = ndx.dimension(function(d) {return d.year;}),
+      salesSumGroup       = yearDimension.group().reduceSum(function(d) {return d.sales;});
+
+  tennisbar
+    .width(500)
+    .height(300)
+	.margins({top: 5, right: 50, bottom: 50, left: 80})
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .brushOn(false)
+    .yAxisLabel("Sales($)")
+    .dimension(yearDimension)
+    .group(salesSumGroup)
+	.title(function (d) { 
+                        return d.key + "\n"+"Sales: $ " + numberFormat(d.value ? d.value : 0) ;
+                    })
+	.yAxis().tickFormat(d3.format("$,")).ticks(8)
+	
+    .on('pretransition', function(tennisbar) {
+        tennisbar.selectAll("rect.bar").on("click", function (d) {
+            console.log('click');
+            tennisbar.filter(null)
+                .filter(d.data.key)
+                .redrawGroup();
+        });
+    });
+	
+	
+    tennisbar.render();
+});
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+var numberFormat = d3.format(",");
+var tennisbar1 = dc.barChart("#tennisbar1");
+d3.csv("profit.csv", function(error, experiments) {
+
+  experiments.forEach(function(x) {
+    x.sales = +x.sales;
+  });
+
+  var ndx                 = crossfilter(experiments),
+      yearDimension        = ndx.dimension(function(d) {return d.year;}),
+      salesSumGroup       = yearDimension.group().reduceSum(function(d) {return d.sales;});
+
+  tennisbar1
+    .width(500)
+    .height(300)
+	.margins({top: 5, right: 50, bottom: 50, left: 80})
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .brushOn(false)
+    .yAxisLabel("Profits($)")
+    .dimension(yearDimension)
+    .group(salesSumGroup)
+	.title(function (d) { 
+                        return d.key + "\n"+"Profits: $ " + numberFormat(d.value ? d.value : 0) ;
+                    })
+	.yAxis().tickFormat(d3.format("$,")).ticks(8)
+	
+    .on('pretransition', function(tennisbar1) {
+        tennisbar1.selectAll("rect.bar").on("click", function (d) {
+            console.log('click');
+            tennisbar1.filter(null)
+                .filter(d.data.key)
+                .redrawGroup();
+        });
+    });
+	
+	
+    tennisbar1.render();
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
